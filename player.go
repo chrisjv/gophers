@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/gopherjs/gopherjs/js"
 	"gopkg.in/igm/sockjs-go.v2/sockjs"
+	"time"
 )
 
 type Player struct {
@@ -11,9 +12,9 @@ type Player struct {
 	Keys    Keyboard
 }
 
-func (p *Player) Move() {
-	p.X += (-p.Keys.A + p.Keys.D) * 10
-	p.Y += (-p.Keys.W + p.Keys.S) * 10
+func (p *Player) Move(dt time.Duration) {
+	p.X += (-p.Keys.A + p.Keys.D) * int(dt/time.Millisecond)
+	p.Y += (-p.Keys.W + p.Keys.S) * int(dt/time.Millisecond)
 	if p.X < 0 {
 		p.X = 0
 	} else if p.X > 1024-300 {

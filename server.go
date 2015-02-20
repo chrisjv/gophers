@@ -6,7 +6,6 @@ import (
 	"gopkg.in/igm/sockjs-go.v2/sockjs"
 	"html/template"
 	"net/http"
-	"time"
 )
 
 var templates = template.Must(template.ParseFiles("index.html"))
@@ -55,7 +54,7 @@ func main() {
 	go func() {
 		for {
 			game.Play()
-			time.Sleep(1000 / 60 * time.Millisecond)
+			game.Sleep()
 		}
 	}()
 

@@ -57,14 +57,12 @@ func main() {
 	canvas := js.Global.Get("document").Call("getElementById", "canvas")
 	ctx := canvas.Call("getContext", "2d")
 
-	render := func() {
+	for {
+		game.Play()
 		ctx.Call("clearRect", 0, 0, canvas.Get("width"), canvas.Get("height"))
-		for id, player := range game.Players {
-			player.Move()
+		for _, player := range game.Players {
 			player.Draw(ctx, img)
-			game.Players[id] = player
 		}
+		game.Sleep()
 	}
-
-	js.Global.Call("setInterval", render, 1000/60)
 }

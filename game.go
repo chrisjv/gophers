@@ -2,10 +2,12 @@ package main
 
 import (
 	"gopkg.in/igm/sockjs-go.v2/sockjs"
+	"time"
 )
 
 type Game struct {
 	Id      string
+	Timer   time.Time
 	Players map[string]Player
 }
 
@@ -24,8 +26,17 @@ func (game Game) Sync() {
 }
 
 func (game *Game) Play() {
+	t0 := game.Timer
+	game.Timer = time.Now()
 	for id, player := range game.Players {
-		player.Move()
+		player.Move(game.Timer.Sub(t0))
 		game.Players[id] = player
+	}
+}
+
+func (game Game) Sleep() {
+	s := 1000/60*time.Millisecond - time.Now().Sub(game.Timer)
+	if s > 0 {
+		time.Sleep(s)
 	}
 }
