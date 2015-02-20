@@ -1,7 +1,5 @@
 # Compile client
-GLOBIGNORE="server.go"
-gopherjs build *.go -o static/client.js
+gopherjs build -o static/client.js
 
-# Run server
-GLOBIGNORE="client.go"
-go run *.go
+# Build and run server
+go build && ./gophers
