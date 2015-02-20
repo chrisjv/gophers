@@ -28,6 +28,7 @@ func SockJSHandler(session sockjs.Session) {
 	game.Sync()
 	for {
 		if msg, err := session.Recv(); err == nil {
+			game.Play()
 			m := Message{}
 			json.Unmarshal([]byte(msg), &m)
 			if m.Command == "KeyDown" {
@@ -53,12 +54,6 @@ var game = Game{Id: "Game1"}
 
 func main() {
 	game.Players = make(map[string]Player)
-	go func() {
-		for {
-			game.Play()
-			game.Sleep()
-		}
-	}()
 
 	http.HandleFunc("/", HomeHandler)
 	http.HandleFunc("/static/", StaticFileHandler)

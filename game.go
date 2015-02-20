@@ -21,6 +21,7 @@ func (game *Game) RemovePlayer(session sockjs.Session) {
 }
 
 func (game Game) Sync() {
+	game.Play()
 	msg := Message{Players: game.Players}
 	msg.Broadcast()
 }
